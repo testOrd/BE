@@ -15,7 +15,7 @@ class AuthAdapter {
       if (!isPasswordValid) {
         throw new Error('Invalid username or password');
       }
-      const accessToken = jwt.sign({ userId: user._id.toString() }, 'secret');
+      const accessToken = jwt.sign({ userId: user._id.toString() }, 'secret',{ expiresIn: '24h' });
       return { accessToken };
     } catch (error) {
       console.error(error);
@@ -32,7 +32,7 @@ class AuthAdapter {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
       const user = new User({ username, password: hashedPassword });
       await user.save();
-      const accessToken = jwt.sign({ userId: user._id.toString() }, 'secret');
+      const accessToken = jwt.sign({ userId: user._id.toString() }, 'secret',{ expiresIn: '24h' });
       return { accessToken };
     } catch (error) {
       console.error(error);
